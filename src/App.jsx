@@ -6,6 +6,14 @@ function App() {
   const [search, setSearch] = useState("");
   const [products, setProducts] = useState([]);
 
+  useEffect(() => {
+    fetch(`http://localhost:3333/products?search=${search}`)
+      .then(response => response.json())
+      .then(data => setProducts(data))
+      .catch(error => console.error(error))
+
+  }, [search]);
+  console.log(products)
   return (
     <>
       <input type="text"
