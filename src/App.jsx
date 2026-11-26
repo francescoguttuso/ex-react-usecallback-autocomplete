@@ -1,15 +1,32 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import './App.css'
 
+function debounce(func, delay = 300) {
+  let timeoutId;
+
+  return function (...args) {
+    clearTimeout(timeoutId);
+
+    timeoutId = setTimeout(() => {
+      func.apply(this, args);
+    }, delay);
+  };
+}
+
 function App() {
+
   const [search, setSearch] = useState("");
   const [products, setProducts] = useState([]);
 
-  useEffect(() => {
+  const fetchProducts = useCallback(() => {
     fetch(`http://localhost:3333/products?search=${search}`)
       .then(response => response.json())
       .then(data => setProducts(data))
       .catch(error => console.error(error))
+  }, [search]);
+
+  useEffect(() => {
+    fetchProducts(search)
   }, [search]);
 
   console.log(products);
