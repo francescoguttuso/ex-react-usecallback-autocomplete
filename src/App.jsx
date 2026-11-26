@@ -17,6 +17,7 @@ function App() {
   return (
     <>
       <div className="autocomplete">
+        <h2 className="autocomplete-title">SEARCH PRODUCTS</h2>
         <input
           className="autocomplete-input"
           type="text"
