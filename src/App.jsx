@@ -18,15 +18,20 @@ function App() {
   const [search, setSearch] = useState("");
   const [products, setProducts] = useState([]);
 
-  const fetchProducts = useCallback(() => {
-    fetch(`http://localhost:3333/products?search=${search}`)
+  const fetchProducts = useCallback((query) => {
+    fetch(`http://localhost:3333/products?search=${query}`)
       .then(response => response.json())
       .then(data => setProducts(data))
       .catch(error => console.error(error))
-  }, [search]);
+  }, []);
+
+  const fetchDebouncedProducts = useCallback(
+    debounce(fetchProducts, 300),
+    []
+  );
 
   useEffect(() => {
-    fetchProducts(search)
+    fetchDebouncedProducts(search)
   }, [search]);
 
   console.log(products);
